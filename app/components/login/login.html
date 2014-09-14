@@ -1,0 +1,8 @@
+<div ng-controller="loginCtrl">
+    <div ng-show="notValid.show" >Invalid email or password</div>
+    <form  name="myForm" novalidate ng-submit="submit(data)">
+        <input type="email" name="email" ng-model="data.email"  placeholder="Email" required/><br>
+        <input type="password" name="password" ng-model="data.password" placeholder="Password" required></br>
+        <button  type="submit" ng-disabled="myForm.$invalid">login</button>
+    </form>
+</div>

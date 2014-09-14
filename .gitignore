@@ -1,0 +1,9 @@
+# Created by .gitignore support plugin (hsz.mobi)
+
+test/
+node_modules/gaze/
+node_modules/cli-color/
+build/
+.idea/
+node_modules/
+lib/
