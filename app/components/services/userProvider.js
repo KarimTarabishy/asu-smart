@@ -4,8 +4,9 @@ angular.module('app')
         var loggedUser = null;
         obj.isLoggedIn = function () {
             return loggedUser !== null;
-        }
+        };
         obj.logUser = function (data){
             loggedUser = data;
-        }
-    })
+        };
+        return obj;
+    });
