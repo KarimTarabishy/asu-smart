@@ -4,6 +4,7 @@ var path = require('path');
 var dive = require('diveSync');
 var fs = require('fs');
 var del = require('del').sync;
+var chok = require('chokidar');
 
 
 
@@ -89,9 +90,34 @@ module.exports = (function(){
     };
 
 
+    var watch = function(path, cb){
+        var firstCall = true;
+        var timer = null;
+        var files={};
+        chok.watch(path, {ignored: /[\/\\]\./, persistent: true}).on('all', function(event, path) {
+            if(firstCall )
+            {
+                if(timer === null)
+                {
+                    setTimeout(function(){firstCall = false;},300);
+                }
+                return;
+            }
+            var ltime = files[path];
+            if( ltime)
+            {
+                var diff =  new Date().getTime() - ltime[1] ;
+                if(diff < 700 && event == ltime[0])
+                    return;
+            }
+            files[path] = [event,new Date().getTime()];
+            cb(event, path);
+        });
+    }
     return {
         count : count,
-        makeSimilar: makeSimilar
+        makeSimilar: makeSimilar,
+        watch: watch
     }
 
 })();

@@ -56,14 +56,11 @@ gulp.task('smart-clean', function(){
 gulp.task("start",['smart-clean','js-concat'], function(){
     livereload.listen();
     setTimeout(function(){gulp.start('css-concat')},0);
-    gulp.watch(['build/app.css','build/app.js']).on("change",livereload.changed);
-    gulp.watch(['app/**'], function (event) {
-        var ff = path.relative(process.cwd(), event.path);
-
-        console.log(event.type+": "+event.path);
-        if(globule.isMatch('app/**/*.styl', ff))
+    util.watch(['app/','build/app.css','build/app.js'], function (event, path) {
+        console.log(path);
+        if(globule.isMatch('app/**/*.styl', path))
         {
-            if (event.type === 'deleted') {                   // if a file is deleted, delete it from build
+            if (event.type === 'unlink') {                   // if a file is deleted, delete it from build
                 var t = event.path.replace(".styl",".css").replace(/^.+\\app\\/,"build/css/");
                 del(t, function(){gulp.start('css-concat')});
             }
@@ -72,15 +69,15 @@ gulp.task("start",['smart-clean','js-concat'], function(){
                 gulp.start('css-concat');
             }
         }
-
-        if(globule.isMatch('app/**/*.js', ff))
+        else if(globule.isMatch('app/**/*.js', path))
         {
             gulp.start('js-concat');
         }
-        if(globule.isMatch('app/**/*.html', ff))
+        else if(globule.isMatch('app/**/*.html', path) || globule.isMatch('build/**',path))
         {
-            livereload.changed(event.path);
+            livereload.changed(path);
         }
+
 
     });
 });
