@@ -7,7 +7,9 @@ var
     del = require('del'),
     plumber = require('gulp-plumber'),
     util = require('./buildutil.js'),
-    livereload = require('gulp-livereload');
+    livereload = require('gulp-livereload'),
+    globule = require("globule"),
+    path = require("path")
     ;
 
 gulp.task('js-concat',function(){  // depends on stylus task
@@ -44,33 +46,43 @@ gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
         .pipe(gulp.dest('build/'));
 });
 
-//gulp.task('css-watch', ['css-concat'], function () { // run css concat first which in trun runs stylus first
-//    livereload.listen();
-//    gulp.watch(['build/app.css']).on('change', livereload.changed);
-//    gulp.watch(['build/app.js']).on('change', livereload.changed);
-//    gulp.watch(['app/**/*.html']).on('change', livereload.changed);
-//    gulp.watch(['app/**/*.styl'], function (event) {
-//        if (event.type === 'deleted') {                   // if a file is deleted, delete it from build
-//            var t = event.path.replace(".styl",".css").replace(/^.+\\app\\/,"build/css/");
-//            del(t, function(){gulp.start('css-concat')});
-//        }
-//        else
-//        {
-//            gulp.start('css-concat');
-//        }
-//    });
-//    gulp.watch(['app/**/*.js'], function(event){
-//        gulp.start('js-concat');
-//    });
-//
-//});
+
+
 
 gulp.task('smart-clean', function(){
     util.makeSimilar('app','build/css');
 
 });
 gulp.task("start",['smart-clean','js-concat'], function(){
-   setTimeout(function(){gulp.start('css-concat')},0);
+    livereload.listen();
+    setTimeout(function(){gulp.start('css-concat')},0);
+    gulp.watch(['build/app.css','build/app.js']).on("change",livereload.changed);
+    gulp.watch(['app/**'], function (event) {
+        var ff = path.relative(process.cwd(), event.path);
+
+        console.log(event.type+": "+event.path);
+        if(globule.isMatch('app/**/*.styl', ff))
+        {
+            if (event.type === 'deleted') {                   // if a file is deleted, delete it from build
+                var t = event.path.replace(".styl",".css").replace(/^.+\\app\\/,"build/css/");
+                del(t, function(){gulp.start('css-concat')});
+            }
+            else
+            {
+                gulp.start('css-concat');
+            }
+        }
+
+        if(globule.isMatch('app/**/*.js', ff))
+        {
+            gulp.start('js-concat');
+        }
+        if(globule.isMatch('app/**/*.html', ff))
+        {
+            livereload.changed(event.path);
+        }
+
+    });
 });
 
 

@@ -1,22 +1,28 @@
 {
-  "name": "asu-smart",
-  "version": "0.1.0",
-  "authors": [
-    "Karim Tarabishy <tarabishy_2020@hotmail.com>"
-  ],
-  "description": "initial build",
-  "main": "app/index.html",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "components-font-awesome": "~4.2.0",
-    "angular": "~1.2.24",
-    "angular-route": "~1.2.24"
-  }
+    "name": "asu-smart",
+    "version": "0.1.0",
+    "authors": [
+        "Karim Tarabishy <tarabishy_2020@hotmail.com>"
+    ],
+    "description": "initial build",
+    "private": true,
+    "ignore": [
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "components-font-awesome": "~4.2.0",
+        "angular": "~1.2.24",
+        "angular-route": "~1.2.24"
+    },
+    "install" : {
+        "path" : "lib",
+        "sources" : {
+            "components-font-awesome":["bower_components/components-font-awesome/**/*.+(css|otf|ttf|eot|svg|woff)"],
+            "angular":["bower_components/angular/*.+(map|js)"],
+            "angular-route": ["bower_components/angular-route/*.+(map|js)"]
+        }
+    }
 }
