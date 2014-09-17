@@ -1,12 +1,15 @@
 angular.module("app",["ngRoute"]).
-    controller('appCtrl', ['$scope','$route','userProvider','$routeProvider',
-        function($scope, $route, userProvider, $routeProvider ){
+    config(['$routeProvider',function($routeProvider){
+        $routeProvider.otherwise({
+            templateUrl: 'components/login/login.html'
+        });
+    }]).
+    controller('appCtrl', ['$scope','userProvider',
+        function($scope, userProvider ){
             $scope.userIn = userProvider.isLoggedIn()
             if(!$scope.userIn)
             {
 
             }
-            $routeProvider.otherwise({
-                templateUrl: 'components/login/login.html'
-            });
+
     }]);
