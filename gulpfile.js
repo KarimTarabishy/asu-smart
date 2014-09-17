@@ -32,7 +32,10 @@ gulp.task('stylus', function () {
             str: "compiled",
             title: 'stylus'
         }))
-        .pipe(stylus())
+        .pipe(stylus({
+            paths: ["build-imports"],
+            import: ["rules.styl"]
+        }))
         .pipe(gulp.dest('build/css/'));
 });
 gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
