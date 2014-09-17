@@ -1,8 +1,26 @@
-<div ng-controller="loginCtrl">
-    <div ng-show="notValid.show" >Invalid email or password</div>
-    <form  name="myForm" novalidate ng-submit="submit(data)">
-        <input type="email" name="email" ng-model="data.email"  placeholder="Email" required/><br>
-        <input type="password" name="password" ng-model="data.password" placeholder="Password" required></br>
-        <button  type="submit" ng-disabled="myForm.$invalid">login</button>
-    </form>
+<!-- TODO: Put the ng-models on input elements and make form validation -->
+<div id="wrapper">
+    <div id="logo">
+        <span id="title"><span>UNI</span>NECT</span>
+    </div>
+</div>
+<div id="login-content" ng-controller="loginCtrl">
+    <div id="login">
+        <form name="loginForm" ng-submit="submit(data)" novalidate>
+            <label for="username" class="text-label">
+                Username
+            </label>
+            <input type="text" class="input-text" name="username" id="username">
+            <label for="password" class="text-label">
+                Password
+            </label>
+            <input type="password" class="input-text" name="password" id="password">
+            <input type="checkbox" name="remember" id="remember" class="input-radio">
+            <label for="remember">Remember Me</label>
+            <button id="login-submit"> LOG IN</button>
+        </form>
+
+
+    </div>
+    <p id="reset-pass">Forgot your password? <a href="#">Click here to reset it.</a> </p>
 </div>
