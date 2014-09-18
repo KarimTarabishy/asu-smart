@@ -2,11 +2,17 @@ var express = require('express');
 var app = express();
 var path = require("path");
 
+var staticUrl = '/include';
+var publicFolder = path.resolve(__dirname, 'app/include')//make sure you reference the right path
 
-app.use(express.static(path.join(__dirname,"app","include")));
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'app', 'index.html')); // load the single view file (angular will handle the page changes on the front-end)
+//serve all atatic files prefixed with '/static/*'
+app.use(staticUrl, express.static(publicFolder));
+app.use(staticUrl, function(req, res, next) {
+    res.send(404);
 });
 
-
+//serve index.html for all not 'static' prefixed requests
+app.all('/*', function(req, res) {
+    res.sendFile('index.html', {root: path.resolve(__dirname, 'app/')});
+});
 app.listen(5000);

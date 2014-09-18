@@ -1,0 +1,19 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-size: 10px;
+}
+html,
+body {
+  height: 100%;
+  min-width: 650px;
+  min-height: 400px;
+}
+body {
+  background: url("/include/images/back.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
