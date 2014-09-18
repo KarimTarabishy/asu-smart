@@ -10,7 +10,8 @@ var
     livereload = require('gulp-livereload'),
     globule = require("globule"),
     path = require("path"),
-    templateCache = require("gulp-angular-templatecache");
+    templateCache = require("gulp-angular-templatecache"),
+    replaceStream = require("gulp-replace");
     ;
 
 gulp.task('template-cache', function(){
@@ -33,7 +34,7 @@ function jsConcat(){
             str: "concated",
             title: 'js-concat'
         }))
-        .pipe(concat('app.js'))
+        .pipe(concat('app.js',{newLine: '\r\n'}))
         .pipe(gulp.dest('app/include/'));
 }
 
@@ -54,6 +55,7 @@ gulp.task('stylus', function () {
             paths: ["app"],
             import: ["rules.styl"]
         }))
+        .pipe(replaceStream("\n","\r\n"))
         .pipe(gulp.dest('build/css/'));
 });
 gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
@@ -63,7 +65,7 @@ gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
             str: "concated",
             title: 'css-concat'
         }))
-        .pipe(concat('app.css'))
+        .pipe(concat('app.css',{newLine: '\r\n'}))
         .pipe(gulp.dest('app/include/'));
 });
 
