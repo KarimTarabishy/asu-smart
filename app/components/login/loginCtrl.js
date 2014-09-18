@@ -1,5 +1,5 @@
 angular.module('app').
-    controller('loginCtrl', ['$scope','userProvider',function($scope, userProvider) {
+    controller('loginCtrl', function($scope, userProvider) {
         var usersStore =[//this is not defined with $scope so it wont appear to the view this is a hidden property
             {
                 email: 'aya@gmail.com',
@@ -11,6 +11,7 @@ angular.module('app').
             }
         ];
 
+        var doLogIn =
 
         $scope.info = {valid: true};
         $scope.submit = function(data) {
@@ -36,4 +37,4 @@ angular.module('app').
             }
         };
 
-    }]);
+    });
