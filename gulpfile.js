@@ -44,7 +44,7 @@ gulp.task('js-concat',function(){
 
 
 gulp.task('stylus', function () {
-    return gulp.src('app/app.styl','app/components/**/*.styl')
+    return gulp.src(['app/**/*.styl','!app/rules.styl'],{base:"app/"})
         .pipe(plumber())
         .pipe(changed('build/css/',{ extension: '.css' }))
         .pipe(util.count({

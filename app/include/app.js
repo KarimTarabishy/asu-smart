@@ -14,7 +14,7 @@ angular.module("app",["ngRoute"]).
 
     }]);
 angular.module('app').
-    controller('loginCtrl', ['$scope','userProvider',function($scope, userProvider) {
+    controller('loginCtrl', function($scope, userProvider) {
         var usersStore =[//this is not defined with $scope so it wont appear to the view this is a hidden property
             {
                 email: 'aya@gmail.com',
@@ -26,6 +26,7 @@ angular.module('app').
             }
         ];
 
+        var doLogIn =
 
         $scope.info = {valid: true};
         $scope.submit = function(data) {
@@ -51,7 +52,14 @@ angular.module('app').
             }
         };
 
-    }]);
+    });
+angular.module('app')
+    .factory('loginProvider', function(userProvider) {
+        var func = function(){
+
+        };
+        return func;
+    });
 angular.module('app')
     .factory('userProvider', function() {
         var obj = {};
@@ -64,4 +72,4 @@ angular.module('app')
         };
         return obj;
     });
-angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("components/login/login.html","<div ng-controller=\"loginCtrl\">\r\n    <div ng-show=\"notValid.show\" >Invalid email or password</div>\r\n    <form  name=\"myForm\" novalidate ng-submit=\"submit(data)\">\r\n        <input type=\"email\" name=\"email\" ng-model=\"data.email\"  placeholder=\"Email\" required/><br>\r\n        <input type=\"password\" name=\"password\" ng-model=\"data.password\" placeholder=\"Password\" required></br>\r\n        <button  type=\"submit\" ng-disabled=\"myForm.$invalid\">login</button>\r\n    </form>\r\n</div>");}]);
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("components/login/login.html","<!-- TODO: Put the ng-models on input elements and make form validation -->\r\n<div id=\"wrapper\">\r\n    <div id=\"logo\">\r\n        <span id=\"title\"><span>UNI</span>NECT</span>\r\n    </div>\r\n</div>\r\n<div id=\"login-content\" ng-controller=\"loginCtrl\">\r\n    <div id=\"login\">\r\n        <form name=\"loginForm\" ng-submit=\"submit(data)\" novalidate>\r\n            <label for=\"username\" class=\"text-label\">\r\n                Username\r\n            </label>\r\n            <input type=\"text\" class=\"input-text\" name=\"username\" id=\"username\">\r\n            <label for=\"password\" class=\"text-label\">\r\n                Password\r\n            </label>\r\n            <input type=\"password\" class=\"input-text\" name=\"password\" id=\"password\">\r\n            <input type=\"checkbox\" name=\"remember\" id=\"remember\" class=\"input-radio\">\r\n            <label for=\"remember\">Remember Me</label>\r\n            <button id=\"login-submit\"> LOG IN</button>\r\n        </form>\r\n\r\n\r\n    </div>\r\n    <p id=\"reset-pass\">Forgot your password? <a href=\"#\">Click here to reset it.</a> </p>\r\n</div>");}]);
