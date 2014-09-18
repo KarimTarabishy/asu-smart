@@ -19,4 +19,4 @@ Open the project folder and execute `npm install`. To start the build system use
 
 
 ### Starting the server
-To start the server type `node sserver.js` and head to `localhost:5000`
+To start the server type `node server.js` and head to `localhost:5000`
