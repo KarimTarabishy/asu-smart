@@ -95,14 +95,18 @@ module.exports = (function(){
         var timer = null;
         var files={};
         chok.watch(path, {ignored: /[\/\\]\./, persistent: true}).on('all', function(event, path) {
+            // Make sure not to fire events on starting watch
+            // as plugin fire events when it starts watching existing files
             if(firstCall )
             {
                 if(timer === null)
                 {
-                    setTimeout(function(){firstCall = false;},300);
+                    setTimeout(function(){firstCall = false;},600);
                 }
                 return;
             }
+            // Some hack to prevent duplicate event on save
+            // so basically leave a 700ms between each event on the same file
             var ltime = files[path];
             if( ltime)
             {
@@ -110,7 +114,16 @@ module.exports = (function(){
                 if(diff < 700 && event == ltime[0])
                     return;
             }
-            files[path] = [event,new Date().getTime()];
+            // if the event is an unlink event and this path is saved delete it
+            if(event.search('unlink') != -1 && ltime)
+            {
+                delete files[path]
+            }
+            else // otherwise update/save
+            {
+                files[path] = [event,new Date().getTime()];
+            }
+            //fire the event
             cb(event, path);
         });
     }
