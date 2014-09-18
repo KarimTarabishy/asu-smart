@@ -13,19 +13,19 @@ var
     ;
 
 gulp.task('js-concat',function(){  // depends on stylus task
-    return gulp.src(['app/app.js','app/**/*.js'])
+    return gulp.src(['app/app.js','app/components/**/*.js'])
         .pipe(plumber())
         .pipe(util.count({
             str: "concated",
             title: 'js-concat'
         }))
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('build/'));
+        .pipe(gulp.dest('app/include/'));
 });
 
 
 gulp.task('stylus', function () {
-    return gulp.src('app/**/*.styl')
+    return gulp.src('app/app.styl','app/components/**/*.styl')
         .pipe(plumber())
         .pipe(changed('build/css/',{ extension: '.css' }))
         .pipe(util.count({
@@ -33,7 +33,7 @@ gulp.task('stylus', function () {
             title: 'stylus'
         }))
         .pipe(stylus({
-            paths: ["build-imports"],
+            paths: ["app"],
             import: ["rules.styl"]
         }))
         .pipe(gulp.dest('build/css/'));
@@ -46,7 +46,7 @@ gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
             title: 'css-concat'
         }))
         .pipe(concat('app.css'))
-        .pipe(gulp.dest('build/'));
+        .pipe(gulp.dest('app/include/'));
 });
 
 
@@ -59,9 +59,11 @@ gulp.task('smart-clean', function(){
 gulp.task("start",['smart-clean','js-concat'], function(){
     livereload.listen();
     setTimeout(function(){gulp.start('css-concat')},0);
-    util.watch(['app/','build/app.css','build/app.js'], function (event, path) {
-        console.log(path);
-        if(globule.isMatch('app/**/*.styl', path))
+    util.watch(['app/'], function (event, path) {
+        if(globule.isMatch('app/include/**')){
+            livereload.changed(path);
+        }
+        else if(globule.isMatch('app/**/*.styl', path))
         {
             if (event.type === 'unlink') {                   // if a file is deleted, delete it from build
                 var t = event.path.replace(".styl",".css").replace(/^.+\\app\\/,"build/css/");
@@ -76,7 +78,7 @@ gulp.task("start",['smart-clean','js-concat'], function(){
         {
             gulp.start('js-concat');
         }
-        else if(globule.isMatch('app/**/*.html', path) || globule.isMatch('build/**',path))
+        else if(globule.isMatch('app/**/*.html', path))
         {
             livereload.changed(path);
         }
