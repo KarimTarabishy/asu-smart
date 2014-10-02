@@ -37,16 +37,39 @@ function jsConcat(){
         .pipe(concat('app.js',{newLine: '\r\n'}))
         .pipe(gulp.dest('app/include/'));
 }
-
+function cssConcat(name ){
+    return gulp.src('build/css/**/*.css')
+        .pipe(plumber())
+        .pipe(util.count({
+            str: "concated",
+            title: name
+        }))
+        .pipe(concat('app.css',{newLine: '\r\n'}))
+        .pipe(gulp.dest('app/include/'));
+}
 gulp.task('js-concat',function(){
     return jsConcat();
 });
 
 
-gulp.task('stylus', function () {
+gulp.task('stylus-cache', function () {
     return gulp.src(['app/**/*.styl','!app/rules.styl'],{base:"app/"})
         .pipe(plumber())
         .pipe(changed('build/css/',{ extension: '.css' }))
+        .pipe(util.count({
+            str: "compiled",
+            title: 'stylus-cache'
+        }))
+        .pipe(stylus({
+            paths: ["app"],
+            import: ["rules.styl"]
+        }))
+        .pipe(replaceStream("\n","\r\n"))
+        .pipe(gulp.dest('build/css/'));
+});
+gulp.task('stylus', function () {
+    return gulp.src(['app/**/*.styl','!app/rules.styl'],{base:"app/"})
+        .pipe(plumber())
         .pipe(util.count({
             str: "compiled",
             title: 'stylus'
@@ -58,18 +81,12 @@ gulp.task('stylus', function () {
         .pipe(replaceStream("\n","\r\n"))
         .pipe(gulp.dest('build/css/'));
 });
-gulp.task('css-concat', ['stylus'],function(){  // depends on stylus task
-    return gulp.src('build/css/**/*.css')
-        .pipe(plumber())
-        .pipe(util.count({
-            str: "concated",
-            title: 'css-concat'
-        }))
-        .pipe(concat('app.css',{newLine: '\r\n'}))
-        .pipe(gulp.dest('app/include/'));
+gulp.task('css-concat', ['stylus-cache'],function(){  // depends on stylus-cache task
+    return cssConcat("css-concat");
 });
-
-
+gulp.task('css-concat-re-compile', ['stylus'],function(){  // depends on stylus-cache task
+    return cssConcat('css-concat-re-compile');
+});
 
 
 gulp.task('smart-clean', function(){
@@ -81,10 +98,13 @@ gulp.task('dummy',['smart-clean','template-cache'], function(){
 })
 gulp.task("start",['dummy'], function(){
     livereload.listen();
-    setTimeout(function(){gulp.start('css-concat')},0);
+    setTimeout(function(){gulp.start('css-concat-re-compile')},0);
     util.watch(['app/','build/templates.js'], function (event, path) {
         if(globule.isMatch('app/include/**',path)){
             livereload.changed(path);
+        }
+        else if(globule.isMatch('app/rules.styl', path)){
+            gulp.start('css-concat-re-compile');
         }
         else if(globule.isMatch('app/**/*.styl', path))
         {

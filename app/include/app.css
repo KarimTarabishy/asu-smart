@@ -11,11 +11,7 @@ body {
   min-height: 400px;
 }
 body {
-  background: url("/include/images/back.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-color: #f5f5f5;
 }
 
 #wrapper {
@@ -24,9 +20,9 @@ body {
 }
 #logo {
   display: inline-block;
-  padding-top: 20px;
-  margin: 20px;
-  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-left: -30px;
 }
 #title-img {
   vertical-align: middle;
@@ -34,14 +30,9 @@ body {
 #title {
   padding: 0 5px;
   vertical-align: middle;
-  color: #dddd3c;
-  font-family: 'Chewy', cursive;
+  color: #474444;
+  font-family: 'Oswald', sans-serif;
   font-size: 2.7em;
-}
-#title span {
-  font-size: 1.5em;
-  color: #56b4b0;
-  font-family: 'Chewy', cursive;
 }
 #login-content {
   width: 400px;
@@ -50,10 +41,10 @@ body {
 #login {
   width: 400px;
   margin: 20px auto;
-  background-color: #f4f4f4;
-  border: 1px solid rgba(177,177,177,0.3);
-  border-radius: 5px;
-  box-shadow: 0px 2px 1px 0px rgba(51,51,51,0.3);
+/*border 1px solid rgba(177, 177, 177, 0.3)*/
+/*border-radius 5px*/
+/*box-shadow 0px 2px 1px 0px rgba(51, 51, 51, 0.3)*/
+/*background-color rgba(255, 255, 255, 0.51)*/
 }
 #login form {
   padding: 30px;
@@ -66,11 +57,10 @@ body {
   padding: 5px;
   margin-top: 3px;
   display: block;
-  color: #a7a2a2;
 }
 #login label {
   vertical-align: middle;
-  color: #66808b;
+  color: #474444;
   font-size: 1.2em;
 }
 #login #remember {
@@ -92,9 +82,13 @@ body {
 }
 #login-submit {
   margin-top: 20px;
+  display: block;
   width: 100%;
   padding: 10px 10px;
-  border: 1px solid #298cba;
+  border: 1px solid rgba(128,128,128,0.31);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
   background: #0688c0;
   background: -webkit-gradient(linear, left top, left bottom, from(#1daae6), to(#0688c0));
   background: -webkit-linear-gradient(top, #1daae6, #0688c0);
@@ -102,9 +96,6 @@ body {
   background: -ms-linear-gradient(top, #1daae6, #0688c0);
   background: -o-linear-gradient(top, #1daae6, #0688c0);
   background-image: -ms-linear-gradient(top, #1daae6 0%, #0688c0 100%);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
@@ -116,12 +107,11 @@ body {
 }
 #reset-pass {
   text-align: center;
-  color: #fff;
   font-weight: bold;
   font-size: 1.3em;
 }
 #reset-pass a {
-  color: #fff;
+  color: #000;
   font-size: 1em;
   font-weight: normal;
 }

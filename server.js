@@ -3,7 +3,7 @@ var app = express();
 var path = require("path");
 
 var staticUrl = '/include';
-var publicFolder = path.resolve(__dirname, 'app/include')//make sure you reference the right path
+var publicFolder = path.resolve(__dirname, 'app/include')
 
 //serve all atatic files prefixed with '/static/*'
 app.use(staticUrl, express.static(publicFolder));
