@@ -7,6 +7,13 @@ npm install -g bower
 npm install -g bower-installer
 ```
 
+If your npm install hangs try using this
+```
+npm install --registry http://registry.npmjs.org/ -g gulp
+npm install --registry http://registry.npmjs.org/ -g bower
+npm install --registry http://registry.npmjs.org/ -g bower-installer
+```
+
 ### Installing Build System
 
 Open the project folder and execute `npm install`. To start the build system use the command `gulp start` it will watch saves to file and compile stylus to css files then concat them. It will also concat the js files and would allow for a livereload when any file changes(stylus,js,html) if you have the plugin installed.
